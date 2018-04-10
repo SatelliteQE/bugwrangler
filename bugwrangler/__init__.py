@@ -55,7 +55,7 @@ def cli():
     '--flags',
     '-f',
     default=AUTOMATED,
-    help='Which Bugzilla test coverage to use.',
+    help='Which Bugzilla flag to use.',
     multiple=True,
     type=str,
 )

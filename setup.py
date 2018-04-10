@@ -27,4 +27,6 @@ setup(
     license='GPLv3',
     description=('Performs queries and actions against Red '
                  'Hat\'s Bugzilla.'),
+    package_data={'': ['LICENSE']},
+    url='https://github.com/SatelliteQE/bugwrangler',
 )
