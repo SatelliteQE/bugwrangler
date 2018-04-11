@@ -12,4 +12,5 @@ ENV BUGZILLA_USER_NAME=
 ENV BUGZILLA_USER_PASSWORD=
 
 # Run bugwrangler when the container launches
-CMD ["bugwrangler"]
+ENTRYPOINT [ "bugwrangler" ]
+CMD ["--help"]
