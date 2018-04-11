@@ -26,6 +26,12 @@ class Config(object):
         self.user = os.environ.get('BUGZILLA_USER_NAME', None)
         self.password = os.environ.get('BUGZILLA_USER_PASSWORD', None)
         self.bugzilla = bugzilla.Bugzilla(url=BUGZILLA_URL)
+
+        # Get a valid web session if credentials are available.
+        if not self.user and not self.password:
+            click.echo('Please provide valid Bugzilla credentials!')
+            sys.exit(-1)
+
         try:
             self.session = self.bugzilla.login(
                 user=self.user,
@@ -54,7 +60,7 @@ def cli():
 @click.option(
     '--flags',
     '-f',
-    default=AUTOMATED,
+    default=[AUTOMATED],
     help='Which Bugzilla flag to use.',
     multiple=True,
     type=str,
