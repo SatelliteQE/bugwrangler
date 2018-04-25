@@ -1,10 +1,30 @@
 '''Collection of Bugzilla queries.'''
+from bugwrangler.constants import QUERY_FIELDS
+
+
+def needs_info(config, product, requestee):
+    '''Fetch Bigzilla issues waiting for information from requestee.'''
+    query = config.bugzilla.build_query(
+        product=product,
+    )
+
+    query['f1'] = 'requestees.login_name'
+    query['o1'] = 'equals'
+    query['v1'] = requestee
+    query['query_format'] = 'advanced'
+
+    query["include_fields"] = QUERY_FIELDS
+
+    if config.verbose:
+        print(query)
+
+    return config.bugzilla.query(query)
 
 
 def qe_test_coverage(config, product, flags, start, end):
-    """Fetch automation coverage from Bugzilla."""
+    '''Fetch automation coverage from Bugzilla.'''
     query = config.bugzilla.build_query(
-        product='Red Hat Satellite 6',
+        product=product,
     )
 
     # Do we care about date range?
@@ -35,20 +55,12 @@ def qe_test_coverage(config, product, flags, start, end):
     for flag in flags:
         # Filtering for coverage flag
         query_fields += 1
-        query['f{0}'.format(query_fields)] = 'flagtypes.name'
-        query['v{0}'.format(query_fields)] = flag
-        query['o{0}'.format(query_fields)] = 'substring'
+        query[f'f{query_fields}'] = 'flagtypes.name'
+        query[f'v{query_fields}'] = flag
+        query[f'o{query_fields}'] = 'substring'
 
-    query["include_fields"] = [
-        'id',
-        'summary',
-        'component',
-        'status',
-        'resolution',
-        'flags',
-        'weburl',
-        'cf_pm_score',
-        ]
+    query["include_fields"] = QUERY_FIELDS
+
     if config.verbose:
         print(query)
 

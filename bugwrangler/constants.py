@@ -37,3 +37,14 @@ EXCLUDED_KEYWORDS = [
     'TestOnly',
     'Tracking',
 ]
+
+QUERY_FIELDS = [
+        'id',
+        'summary',
+        'component',
+        'status',
+        'resolution',
+        'flags',
+        'weburl',
+        'cf_pm_score',
+        ]

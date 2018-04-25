@@ -15,8 +15,8 @@ from bugwrangler.constants import (
     AUTOMATED,
     BUGZILLA_URL,
     )
-from bugwrangler.queries import qe_test_coverage
-from bugwrangler.reporter import print_table
+from bugwrangler.queries import needs_info, qe_test_coverage
+from bugwrangler.reporter import needsinfo_query_report, general_query_report
 
 
 class Config(object):
@@ -88,4 +88,42 @@ def coverage(config, product, flags, start, end, report, verbose):
         ', '.join(flags), bug_count
         ))
     if report:
-        print_table(bugs)
+        general_query_report(bugs)
+
+
+@click.group()
+def cli():
+    """CLI object."""
+    pass
+
+
+@cli.command()
+@click.option(
+    '--product',
+    required=True,
+    type=str,
+    help=("Product name"),
+)
+@click.option(
+    '--requestee',
+    '-r',
+    default=[AUTOMATED],
+    help='Bugzilla user email.',
+    multiple=True,
+    type=str,
+)
+@click.option('--report', is_flag=True)
+@click.option('--verbose', '-v', is_flag=True)
+@pass_config
+def needsinfo(config, product, requestee, report, verbose):
+    """Display Bugzilla issues with needsinfo status."""
+    config.verbose = verbose
+
+    for contact in requestee:
+        bugs = needs_info(config, product, contact)
+        if report:
+            needsinfo_query_report(bugs, contact)
+        else:
+            click.echo(f'{contact}')
+            for bug in bugs:
+                click.echo(f'{bug.weburl}')

@@ -60,3 +60,36 @@ Now, generate a report for the same query
     | 1177766 |     -269 | [RFE] Republish composite |   POST |            | needinfo?, qe_test_coverage+, sat-6.4.0+, devel_triaged+, pm_ack+, devel_ack+, qa_ack+ |
     | 1449011 |      678 | [RFE] Ansible integration |    NEW |            | needinfo?, qe_test_coverage+, sat-6.4.0+, devel_triaged+, pm_ack+, devel_ack+, qa_ack+ |
     +---------+----------+---------------------------+--------+------------+----------------------------------------------------------------------------------------+
+
+Find all issues with a `needsinfo` on user `bart@example.com`
+
+    $ bugwrangler needsinfo --product 'Red Hat Satellite 6' -r bart@example.com
+    bart@example.com
+    https://bugzilla.redhat.com/show_bug.cgi?id=1439344
+
+Find all issues with a `needsinfo` for multiple users
+
+    $ bugwrangler needsinfo --product 'Red Hat Satellite 6' -r bart@example.com -r homer@example.com
+    bart@example.com
+    https://bugzilla.redhat.com/show_bug.cgi?id=1439344
+    homer@example.com
+    https://bugzilla.redhat.com/show_bug.cgi?id=1370952
+    https://bugzilla.redhat.com/show_bug.cgi?id=1181283
+    https://bugzilla.redhat.com/show_bug.cgi?id=1334863
+
+Now, generate a report for the same query
+
+    $ bugwrangler needsinfo --product 'Red Hat Satellite 6' -r bart@example.com -r homer@example.com --report
+    +---------------------+-----------------------------------------------------+-------------------------------------+
+    |      requestee      |                        weburl                       |               summary               |
+    +---------------------+-----------------------------------------------------+-------------------------------------+
+    | bart@example.com    | https://bugzilla.redhat.com/show_bug.cgi?id=1439344 | pulp-admin throws exception on a ca |
+    +---------------------+-----------------------------------------------------+-------------------------------------+
+
+    +--------------------+-----------------------------------------------------+-------------------------------------+
+    |     requestee      |                        weburl                       |               summary               |
+    +--------------------+-----------------------------------------------------+-------------------------------------+
+    | homer@example.com  | https://bugzilla.redhat.com/show_bug.cgi?id=1370952 | RHEL6 Satellite 6.2 upgrade error - |
+    | homer@example.com  | https://bugzilla.redhat.com/show_bug.cgi?id=1181283 | error when changing fqdn and updati |
+    | homer@example.com  | https://bugzilla.redhat.com/show_bug.cgi?id=1334863 | VDC guest subscriptions do not list |
+    +--------------------+-----------------------------------------------------+-------------------------------------+
