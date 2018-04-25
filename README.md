@@ -26,7 +26,8 @@ Usage
     --help  Show this message and exit.
 
     Commands:
-    coverage  Display Bugzilla issue automation status.
+      coverage   Display Bugzilla issue automation status.
+      needsinfo  Display Bugzilla issues with needsinfo...
 
     bugwrangler coverage --help
     Usage: bugwrangler coverage [OPTIONS]
@@ -41,6 +42,18 @@ Usage
     --report
     -v, --verbose
     --help            Show this message and exit.
+
+    bugwrangler needsinfo --help
+    Usage: bugwrangler needsinfo [OPTIONS]
+
+    Display Bugzilla issues with needsinfo status.
+
+    Options:
+    --product TEXT        Product name  [required]
+    -r, --requestee TEXT  Bugzilla user email.
+    --report
+    -v, --verbose
+    --help                Show this message and exit.
 
 Examples
 --------

@@ -91,12 +91,6 @@ def coverage(config, product, flags, start, end, report, verbose):
         general_query_report(bugs)
 
 
-@click.group()
-def cli():
-    """CLI object."""
-    pass
-
-
 @cli.command()
 @click.option(
     '--product',
