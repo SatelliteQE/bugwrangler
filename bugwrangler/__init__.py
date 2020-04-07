@@ -25,15 +25,19 @@ class Config(object):
     def __init__(self):
         self.user = os.environ.get('BUGZILLA_USER_NAME', None)
         self.password = os.environ.get('BUGZILLA_USER_PASSWORD', None)
-        self.bugzilla = bugzilla.Bugzilla(url=BUGZILLA_URL)
+        self.bugzilla = bugzilla.Bugzilla(
+            url=BUGZILLA_URL,
+            user=self.user,
+            password=self.password,
+        )
 
         # Get a valid web session if credentials are available.
         try:
-            if not self.bugzilla.logged_in and not self.user and not self.password:
-                click.echo('Please provide valid Bugzilla credentials or run '
-                           '`bugzilla login` first!')
-                self.bugzilla.interactive_login(user=self.user,
-                                                password=self.password)
+            if not self.bugzilla.logged_in:
+                click.echo(
+                    'INFO: You are not logged in.\n'
+                    'Please provide valid Bugzilla credentials for more accurate results!'
+                )
 
         except ConnectionError as err:
             click.echo("Could not connect to Bugzilla: {0}".format(err))
